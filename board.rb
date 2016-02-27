@@ -1,11 +1,13 @@
 require 'Set'
 
 class Board
+   VALID_STATE_REGEX = /[.0-9]{81}/
+
    def initialize(state)
       @board = Array.new
 
-      if state.length != 9 ** 2
-         raise ArgumentError.new('State must be exactly 81 characters.')
+      if !state.match(VALID_STATE_REGEX)
+         raise ArgumentError.new('State must be exactly 81 non-whitespace characters.')
       end
 
       state.each_char do |char|
