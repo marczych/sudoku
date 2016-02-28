@@ -39,9 +39,5 @@ module Sudoku
             cell.is_a?(Integer)
          end
       end
-
-      def solve
-         return true
-      end
    end
 end
