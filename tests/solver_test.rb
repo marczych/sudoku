@@ -14,17 +14,11 @@ class SolverTest < Test::Unit::TestCase
       assert_puzzle('naked_singles')
    end
 
-   def test_one_puzzle
-      assert_puzzle('one')
-   end
-
    def test_solved_puzzle
       assert_puzzle('solved')
    end
 
    def assert_puzzle(puzzle_name)
-      # These won't be passing for a while so let's disable them for now.
-      return
       puzzle_file = "tests/puzzles/#{puzzle_name}.puz"
       solution_file = "tests/puzzles/#{puzzle_name}.sol"
       solver = Sudoku::Solver.new(File.read(puzzle_file).strip)
