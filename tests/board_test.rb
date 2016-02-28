@@ -45,9 +45,9 @@ class BoardTest < Test::Unit::TestCase
       end
 
       assert_valid_get.call(0, 0)
-      assert_valid_get.call(9, 0)
-      assert_valid_get.call(0, 9)
-      assert_valid_get.call(9, 9)
+      assert_valid_get.call(8, 0)
+      assert_valid_get.call(0, 8)
+      assert_valid_get.call(8, 8)
    end
 
    def test_invalid_get
@@ -63,9 +63,9 @@ class BoardTest < Test::Unit::TestCase
       assert_invalid_get.call(0, -1)
       assert_invalid_get.call(-1, -1)
       assert_invalid_get.call(-9999, -9999)
-      assert_invalid_get.call(10, 9)
-      assert_invalid_get.call(9, 10)
-      assert_invalid_get.call(10, 10)
+      assert_invalid_get.call(9, 8)
+      assert_invalid_get.call(8, 9)
+      assert_invalid_get.call(9, 9)
       assert_invalid_get.call(9999, 9999)
    end
 
@@ -80,19 +80,25 @@ class BoardTest < Test::Unit::TestCase
       assert_equal(8, board.get(0, 0).length)
       assert_false(options.include?(5))
 
-      assert_raise ArgumentError do
-         # Already not a viable option.
-         board.remove_option(0, 0, 5)
+      assert_invalid_remove_option = proc do |x, y, option|
+         assert_raise ArgumentError do
+            board.remove_option(x, y, option)
+         end
       end
 
-      assert_raise ArgumentError do
-         # Already solved.
-         board.remove_option(2, 0, 3)
-      end
+      # Already not a viable option.
+      assert_invalid_remove_option.call(0, 0, 5)
 
-      assert_raise ArgumentError do
-         # Invalid argument.
-         board.remove_option(2, 0, "I'm a string!")
-      end
+      # Already solved.
+      assert_invalid_remove_option.call(2, 0, 3)
+
+      # Invalid argument.
+      assert_invalid_remove_option.call(0, 0, 10)
+
+      # Invalid argument.
+      assert_invalid_remove_option.call(0, 0, 0)
+
+      # Invalid argument.
+      assert_invalid_remove_option.call(0, 0, "I'm a string!")
    end
 end

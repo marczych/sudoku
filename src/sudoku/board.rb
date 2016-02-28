@@ -47,7 +47,7 @@ module Sudoku
       def remove_option(x, y, value)
          current = @board[get_offset(x, y)]
 
-         if !value.is_a?(Integer)
+         if !value.is_a?(Integer) or value <= 0 or value > 9
             raise ArgumentError.new('Invalid value.')
          end
 
@@ -73,7 +73,7 @@ module Sudoku
       private
 
       def get_offset(x, y)
-         if x < 0 or x > 9 or y < 0 or y > 9
+         if x < 0 or x > 8 or y < 0 or y > 8
             raise ArgumentError.new('Invalid coordinates')
          end
 
