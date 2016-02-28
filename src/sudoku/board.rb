@@ -67,7 +67,32 @@ module Sudoku
             raise ArgumentError.new('Can only solve with an integer.')
          end
 
+         if !@board[get_offset(x, y)].include?(value)
+            raise ArgumentError.new('Not a viable option.')
+         end
+
          @board[get_offset(x,  y)] = value
+
+         remove_option_from_set = proc do |remove_x, remove_y|
+            cell = @board[get_offset(remove_x, remove_y)]
+            if cell.is_a?(Set)
+               cell.delete(value)
+            end
+         end
+
+         (0..8).each do |i|
+            remove_option_from_set.call(x, i)
+            remove_option_from_set.call(i, y)
+         end
+
+         start_x = (x / 3).floor
+         start_y = (y / 3).floor
+
+         (start_x..(start_x + 3)).each do |remove_x|
+            (start_y..(start_y + 3)).each do |remove_y|
+               remove_option_from_set.call(remove_x, remove_y)
+            end
+         end
       end
 
       private

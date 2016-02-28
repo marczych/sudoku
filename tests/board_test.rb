@@ -101,4 +101,39 @@ class BoardTest < Test::Unit::TestCase
       # Invalid argument.
       assert_invalid_remove_option.call(0, 0, "I'm a string!")
    end
+
+   def test_solve
+      board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
+
+      assert(board.get(0, 1).include?(5))
+      assert(board.get(1, 1).include?(5))
+
+      board.solve(0, 0, 5)
+      assert_equal(5, board.get(0, 0))
+      assert_false(board.get(0, 1).include?(5))
+      assert_false(board.get(1, 1).include?(5))
+   end
+
+   def test_invalid_solve
+      board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
+      assert_invalid_solve = proc do |x, y, value|
+         assert_raise ArgumentError do
+            board.solve(x, y, value)
+         end
+      end
+
+      # Conflicts with the 2 right next to it.
+      assert_invalid_solve.call(0, 0, 2)
+
+      # Conflicts with the 3 in the same block.
+      assert_invalid_solve.call(0, 0, 3)
+
+      # Conflicts with the 2 right next to it.
+      assert_invalid_solve.call(0, 0, 2)
+
+      # Already solved.
+      assert_invalid_solve.call(2, 0, 1)
+
+      assert_invalid_solve.call(0, 0, "I'm a string!")
+   end
 end
