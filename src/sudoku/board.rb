@@ -44,6 +44,30 @@ module Sudoku
          return @board[get_offset(x, y)]
       end
 
+      def remove_option(x, y, value)
+         current = @board[get_offset(x, y)]
+
+         if !value.is_a?(Integer)
+            raise ArgumentError.new('Invalid value.')
+         end
+
+         if current.is_a?(Set)
+            if current.include?(value)
+               current.delete(value)
+            else
+               raise ArgumentError.new('Already not an option.')
+            end
+         else
+            raise ArgumentError.new('Cell is already solved.')
+         end
+      end
+
+      def solve(x, y, value)
+         if !value.is_a?(Integer)
+            raise ArgumentError.new('Can only solve with an integer.')
+         end
+
+         @board[get_offset(x,  y)] = value
       end
 
       private
