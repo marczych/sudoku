@@ -34,6 +34,10 @@ module Sudoku
          return state
       end
 
+      def get_pretty_state
+         return get_state().scan(/.{9}/).join("\n") + "\n"
+      end
+
       def solved?
          return @board.all? do |cell|
             cell.is_a?(Integer)
