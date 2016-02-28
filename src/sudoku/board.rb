@@ -39,5 +39,21 @@ module Sudoku
             cell.is_a?(Integer)
          end
       end
+
+      def get(x, y)
+         return @board[get_offset(x, y)]
+      end
+
+      end
+
+      private
+
+      def get_offset(x, y)
+         if x < 0 or x > 9 or y < 0 or y > 9
+            raise ArgumentError.new('Invalid coordinates')
+         end
+
+         return 9 * y + x
+      end
    end
 end
