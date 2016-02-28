@@ -26,6 +26,11 @@ class BoardTest < Test::Unit::TestCase
       assert_equal(state, Sudoku::Board.new(state).get_state());
    end
 
+   def test_solved?
+      assert_false(Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..").solved?)
+      assert(Sudoku::Board.new("973648521528719634641523879864397215392851746157264983485932167236175498719486352").solved?)
+   end
+
    def test_hidden_singles_puzzle
       assert_puzzle('hidden_singles')
    end
