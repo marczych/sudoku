@@ -5,17 +5,21 @@ module Sudoku
       VALID_STATE_REGEX = /[.0-9]{81}/
 
       def initialize(state)
-         @board = Array.new
-
          if !state.match(VALID_STATE_REGEX)
             raise ArgumentError.new('State must be exactly 81 non-whitespace characters.')
          end
 
-         state.each_char do |char|
-            if char == '.'
-               @board << Set.new(1..9)
-            else
-               @board << char.to_i
+         @board = Array.new(81) do
+            Set.new(1..9)
+         end
+
+         (0..8).each do |x|
+            (0..8).each do |y|
+               char = state[get_offset(x, y)]
+
+               if char != '.'
+                  solve(x, y, char.to_i)
+               end
             end
          end
       end
@@ -35,7 +39,11 @@ module Sudoku
       end
 
       def get_pretty_state
-         return get_state().scan(/.{9}/).join("\n") + "\n"
+         return self.class.prettify_state(get_state())
+      end
+
+      def self.prettify_state(state)
+         return state.scan(/.{9}/).join("\n") + "\n"
       end
 
       def solved?
@@ -71,6 +79,10 @@ module Sudoku
             raise ArgumentError.new('Can only solve with an integer.')
          end
 
+         if @board[get_offset(x, y)].is_a?(Integer)
+            raise ArgumentError.new('Already solved.')
+         end
+
          if !@board[get_offset(x, y)].include?(value)
             raise ArgumentError.new('Not a viable option.')
          end
@@ -89,11 +101,11 @@ module Sudoku
             remove_option_from_set.call(i, y)
          end
 
-         start_x = (x / 3).floor
-         start_y = (y / 3).floor
+         start_x = (x / 3).floor * 3
+         start_y = (y / 3).floor * 3
 
-         (start_x..(start_x + 3)).each do |remove_x|
-            (start_y..(start_y + 3)).each do |remove_y|
+         (start_x..(start_x + 2)).each do |remove_x|
+            (start_y..(start_y + 2)).each do |remove_y|
                remove_option_from_set.call(remove_x, remove_y)
             end
          end

@@ -19,6 +19,24 @@ class BoardTest < Test::Unit::TestCase
       assert_valid_state.call('.................................................................................')
       assert_invalid_state.call('................................................................................ ')
       assert_invalid_state.call('.......................................................B.........................')
+
+      assert_valid_state.call('1..2..3...................................................................1..2..3')
+      assert_invalid_state.call('1..2..3.........................................2.........................1..2..3')
+   end
+
+   def test_initialize
+      expected_set = Set.new(2..9)
+      board = Sudoku::Board.new('........................................1........................................')
+
+      assert_equal(Set.new(1..9), board.get(0, 0))
+      assert_equal(expected_set, board.get(3, 3))
+
+      (0..8).each do |i|
+         if i != 4
+            assert_equal(expected_set, board.get(4, i))
+            assert_equal(expected_set, board.get(i, 4))
+         end
+      end
    end
 
    def test_get_state
@@ -90,11 +108,11 @@ STATE
       board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
 
       assert_equal(Set, board.get(0, 0).class)
-      assert_equal(9, board.get(0, 0).length)
+      assert_equal(5, board.get(0, 0).length)
       board.remove_option(0, 0, 5)
 
       options = board.get(0, 0)
-      assert_equal(8, board.get(0, 0).length)
+      assert_equal(4, board.get(0, 0).length)
       assert_false(options.include?(5))
 
       assert_invalid_remove_option = proc do |x, y, option|
