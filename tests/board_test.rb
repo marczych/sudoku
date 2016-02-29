@@ -185,4 +185,32 @@ STATE
          end
       end
    end
+
+   def test_col_row_each
+      board = Sudoku::Board.new('........................................1........................................')
+
+      board.row_each(4) do |x, y, value|
+         if x == 4
+            assert_equal(1, value)
+         else
+            assert_equal(Set.new(2..9), value)
+         end
+      end
+
+      board.col_each(4) do |x, y, value|
+         if y == 4
+            assert_equal(1, value)
+         else
+            assert_equal(Set.new(2..9), value)
+         end
+      end
+
+      board.col_each(0) do |x, y, value|
+         if y == 4
+            assert_equal(Set.new(2..9), value)
+         else
+            assert_equal(Set.new(1..9), value)
+         end
+      end
+   end
 end

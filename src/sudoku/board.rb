@@ -121,6 +121,18 @@ module Sudoku
          end
       end
 
+      def row_each(y)
+         (0..8).each do |x|
+            yield x, y, get(x, y)
+         end
+      end
+
+      def col_each(x)
+         (0..8).each do |y|
+            yield x, y, get(x, y)
+         end
+      end
+
       private
 
       def get_offset(x, y)
