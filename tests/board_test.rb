@@ -213,4 +213,14 @@ STATE
          end
       end
    end
+
+   def test_get_num_changes
+      board = Sudoku::Board.new('.................................................................................')
+
+      initial_changes = board.get_num_changes
+
+      board.solve(0, 0, 1)
+
+      assert(board.get_num_changes > initial_changes)
+   end
 end

@@ -13,6 +13,8 @@ module Sudoku
             Set.new(1..9)
          end
 
+         @changes = 0
+
          (0..8).each do |x|
             (0..8).each do |y|
                char = state[get_offset(x, y)]
@@ -56,6 +58,10 @@ module Sudoku
          return @board[get_offset(x, y)]
       end
 
+      def get_num_changes
+         return @changes
+      end
+
       def remove_option(x, y, value)
          current = @board[get_offset(x, y)]
 
@@ -66,6 +72,7 @@ module Sudoku
          if current.is_a?(Set)
             if current.include?(value)
                current.delete(value)
+               @changes += 1
             else
                raise ArgumentError.new('Already not an option.')
             end
@@ -88,6 +95,7 @@ module Sudoku
          end
 
          @board[get_offset(x,  y)] = value
+         @changes += 1
 
          remove_option_from_set = proc do |remove_x, remove_y|
             cell = @board[get_offset(remove_x, remove_y)]
