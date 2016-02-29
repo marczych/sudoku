@@ -1,5 +1,6 @@
 require 'test/unit'
 require_relative '../src/sudoku/solver.rb'
+require_relative '../src/sudoku/only_option_strategy.rb'
 
 class SolverTest < Test::Unit::TestCase
    def test_hidden_singles_puzzle
@@ -21,7 +22,9 @@ class SolverTest < Test::Unit::TestCase
    def assert_puzzle(puzzle_name)
       puzzle_file = "tests/puzzles/#{puzzle_name}.puz"
       solution_file = "tests/puzzles/#{puzzle_name}.sol"
-      solver = Sudoku::Solver.new(File.read(puzzle_file).strip)
+      solver = Sudoku::Solver.new(File.read(puzzle_file).strip,
+         [Sudoku::OnlyOptionStrategy.new])
+
 
       assert(solver.solve())
       assert_equal(File.read(solution_file).strip, solver.get_state)

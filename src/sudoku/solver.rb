@@ -2,12 +2,28 @@ require_relative 'board.rb'
 
 module Sudoku
    class Solver
-      def initialize(state)
+      def initialize(state, strategies)
          @board = Board.new(state)
-         @strategies = []
+         @strategies = strategies
       end
 
       def solve
+         until @board.solved?
+            current_changes = @board.get_num_changes
+
+            @strategies.each do |strategy|
+               strategy.step(@board)
+
+               if @board.get_num_changes > current_changes
+                  break
+               end
+            end
+
+            if @board.get_num_changes <= current_changes
+               return false
+            end
+         end
+
          return true
       end
 
