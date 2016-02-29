@@ -171,4 +171,18 @@ STATE
 
       assert_invalid_solve.call(0, 0, "I'm a string!")
    end
+
+   def test_each
+      board = Sudoku::Board.new('........................................1........................................')
+
+      board.each do |x, y, value|
+         if x == 4 and y == 4
+            assert_equal(1, value)
+         elsif x == 4 or y == 4 or (x.between?(3, 5) and y.between?(3, 5))
+            assert_equal(Set.new(2..9), value)
+         else
+            assert_equal(Set.new(1..9), value)
+         end
+      end
+   end
 end

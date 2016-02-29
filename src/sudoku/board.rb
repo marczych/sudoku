@@ -111,6 +111,16 @@ module Sudoku
          end
       end
 
+      # Iterators.
+
+      def each
+         (0..8).each do |x|
+            (0..8).each do |y|
+               yield x, y, get(x, y)
+            end
+         end
+      end
+
       private
 
       def get_offset(x, y)
