@@ -1,6 +1,6 @@
 require 'test/unit'
 require_relative '../src/sudoku/solver.rb'
-require_relative '../src/sudoku/only_option_strategy.rb'
+require_relative '../src/sudoku/singles_strategy.rb'
 
 class SolverTest < Test::Unit::TestCase
    def test_hidden_singles_puzzle
@@ -23,7 +23,7 @@ class SolverTest < Test::Unit::TestCase
       puzzle_file = "tests/puzzles/#{puzzle_name}.puz"
       solution_file = "tests/puzzles/#{puzzle_name}.sol"
       solver = Sudoku::Solver.new(File.read(puzzle_file).strip,
-         [Sudoku::OnlyOptionStrategy.new])
+         [Sudoku::SinglesStrategy.new])
 
 
       assert(solver.solve())

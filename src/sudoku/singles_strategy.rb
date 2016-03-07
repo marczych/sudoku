@@ -1,7 +1,7 @@
 require_relative 'strategy.rb'
 
 module Sudoku
-   class OnlyOptionStrategy < Strategy
+   class SinglesStrategy < Strategy
       def step(board)
          board.each do |x, y, value|
             if value.is_a?(Set) and value.length == 1
