@@ -1,5 +1,5 @@
 require_relative 'strategy.rb'
-require 'Set'
+require 'set'
 
 module Sudoku
    class HiddenSinglesStrategy < Strategy

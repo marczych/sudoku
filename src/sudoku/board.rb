@@ -1,4 +1,4 @@
-require 'Set'
+require 'set'
 
 module Sudoku
    class Board
