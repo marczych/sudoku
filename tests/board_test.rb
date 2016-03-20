@@ -4,7 +4,7 @@ require_relative '../src/sudoku/board.rb'
 class BoardTest < Test::Unit::TestCase
    def test_invalid_state
       assert_invalid_state = proc do |state|
-         assert_raise ArgumentError do
+         assert_raise Sudoku::Error do
             Sudoku::Board.new(state)
          end
       end
@@ -89,7 +89,7 @@ STATE
       board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
 
       assert_invalid_get = proc do |x, y|
-         assert_raise ArgumentError do
+         assert_raise Sudoku::Error do
             board.get(x, y)
          end
       end
@@ -116,7 +116,7 @@ STATE
       assert_false(options.include?(5))
 
       assert_invalid_remove_option = proc do |x, y, option|
-         assert_raise ArgumentError do
+         assert_raise Sudoku::Error do
             board.remove_option(x, y, option)
          end
       end
@@ -152,7 +152,7 @@ STATE
    def test_invalid_solve
       board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
       assert_invalid_solve = proc do |x, y, value|
-         assert_raise ArgumentError do
+         assert_raise Sudoku::Error do
             board.solve(x, y, value)
          end
       end

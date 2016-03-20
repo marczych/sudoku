@@ -1,4 +1,5 @@
 require 'set'
+require_relative 'error'
 
 module Sudoku
    class Board
@@ -6,7 +7,7 @@ module Sudoku
 
       def initialize(state)
          if !state.match(VALID_STATE_REGEX)
-            raise ArgumentError.new('State must be exactly 81 non-whitespace characters.')
+            raise Error.new('State must be exactly 81 non-whitespace characters.')
          end
 
          @board = Array.new(81) do
@@ -66,7 +67,7 @@ module Sudoku
          current = @board[get_offset(x, y)]
 
          if !value.is_a?(Integer) or value <= 0 or value > 9
-            raise ArgumentError.new('Invalid value.')
+            raise Error.new('Invalid value.')
          end
 
          if current.is_a?(Set)
@@ -74,24 +75,24 @@ module Sudoku
                current.delete(value)
                @changes += 1
             else
-               raise ArgumentError.new('Already not an option.')
+               raise Error.new('Already not an option.')
             end
          else
-            raise ArgumentError.new('Cell is already solved.')
+            raise Error.new('Cell is already solved.')
          end
       end
 
       def solve(x, y, value)
          if !value.is_a?(Integer)
-            raise ArgumentError.new('Can only solve with an integer.')
+            raise Error.new('Can only solve with an integer.')
          end
 
          if @board[get_offset(x, y)].is_a?(Integer)
-            raise ArgumentError.new('Already solved.')
+            raise Error.new('Already solved.')
          end
 
          if !@board[get_offset(x, y)].include?(value)
-            raise ArgumentError.new('Not a viable option.')
+            raise Error.new('Not a viable option.')
          end
 
          @board[get_offset(x,  y)] = value
@@ -145,7 +146,7 @@ module Sudoku
 
       def get_offset(x, y)
          if x < 0 or x > 8 or y < 0 or y > 8
-            raise ArgumentError.new('Invalid coordinates')
+            raise Error.new('Invalid coordinates')
          end
 
          return 9 * y + x
