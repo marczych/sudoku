@@ -30,5 +30,9 @@ module Sudoku
       def get_state
          return @board.get_state
       end
+
+      def get_pretty_state
+         return @board.get_pretty_state
+      end
    end
 end
