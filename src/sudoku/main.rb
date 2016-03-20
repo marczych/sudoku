@@ -42,10 +42,14 @@ DOC
 
             begin
                solved = solver.solve
+
+               if !solved
+                  puts "Not solved. Partial solution:\n\n"
+               end
             rescue Error => e
                puts 'Error when solving puzzle:'
                puts e
-               puts 'Partial solution:'
+               puts "Partial solution:\n\n"
             end
 
             puts solver.get_pretty_state
