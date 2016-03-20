@@ -15,7 +15,7 @@ module Sudoku
          (0..8).each do |y|
             cells = []
 
-            board.row_each(y) do |x, y, value|
+            board.row_each(y) do |x, _, value|
                cells[x] = value
             end
 
@@ -31,7 +31,7 @@ module Sudoku
          (0..8).each do |x|
             cells = []
 
-            board.col_each(x) do |x, y, value|
+            board.col_each(x) do |_, y, value|
                cells[y] = value
             end
 
@@ -44,7 +44,26 @@ module Sudoku
       end
 
       def step_boxes(board)
-         # TODO: Implement this. Also add a test for it.
+         (0..2).each do |box_x|
+            (0..2).each do |box_y|
+               cells = []
+
+               (0..2).each do |x|
+                  (0..2).each do |y|
+                     cells[(3 * x) + y] = board.get((box_x * 3) + x, (box_y * 3) + y)
+                  end
+               end
+
+               hidden_single = find_hidden_single(cells)
+
+               if hidden_single
+                  index = hidden_single[:index]
+                  x_offset = (box_x * 3) + (index / 3).to_i
+                  y_offset = (box_y * 3) + (index % 3)
+                  board.solve(x_offset, y_offset, hidden_single[:value])
+               end
+            end
+         end
       end
 
       def find_hidden_single(cells)
