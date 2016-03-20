@@ -44,24 +44,20 @@ module Sudoku
       end
 
       def step_boxes(board)
-         (0..2).each do |box_x|
-            (0..2).each do |box_y|
-               cells = []
+         board.each_box do |box_x, box_y|
+            cells = []
 
-               (0..2).each do |x|
-                  (0..2).each do |y|
-                     cells[(3 * x) + y] = board.get((box_x * 3) + x, (box_y * 3) + y)
-                  end
-               end
+            board.box_each(box_x, box_y) do |x, y, value|
+               cells << board.get(x, y)
+            end
 
-               hidden_single = find_hidden_single(cells)
+            hidden_single = find_hidden_single(cells)
 
-               if hidden_single
-                  index = hidden_single[:index]
-                  x_offset = (box_x * 3) + (index / 3).to_i
-                  y_offset = (box_y * 3) + (index % 3)
-                  board.solve(x_offset, y_offset, hidden_single[:value])
-               end
+            if hidden_single
+               index = hidden_single[:index]
+               x_offset = (box_x * 3) + (index / 3).to_i
+               y_offset = (box_y * 3) + (index % 3)
+               board.solve(x_offset, y_offset, hidden_single[:value])
             end
          end
       end
