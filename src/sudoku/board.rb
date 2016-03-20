@@ -142,6 +142,25 @@ module Sudoku
          end
       end
 
+      def each_box
+         (0..2).each do |box_x|
+            (0..2).each do |box_y|
+               yield box_x, box_y
+            end
+         end
+      end
+
+      def box_each(box_x, box_y)
+         start_x = box_x * 3
+         start_y = box_y * 3
+
+         (start_x..(start_x + 2)).each do |x|
+            (start_y..(start_y + 2)).each do |y|
+               yield x, y, get(x, y)
+            end
+         end
+      end
+
       private
 
       def get_offset(x, y)

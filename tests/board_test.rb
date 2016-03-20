@@ -214,6 +214,43 @@ STATE
       end
    end
 
+   def test_each_box
+      board = Sudoku::Board.new('.' * 81)
+      values = []
+
+      board.each_box do |box_x, box_y|
+         values << {
+            :box_x => box_x,
+            :box_y => box_y
+         }
+      end
+
+      assert_equal([
+         {:box_x => 0, :box_y => 0},
+         {:box_x => 0, :box_y => 1},
+         {:box_x => 0, :box_y => 2},
+         {:box_x => 1, :box_y => 0},
+         {:box_x => 1, :box_y => 1},
+         {:box_x => 1, :box_y => 2},
+         {:box_x => 2, :box_y => 0},
+         {:box_x => 2, :box_y => 1},
+         {:box_x => 2, :box_y => 2},
+      ], values)
+   end
+
+   def test_box_each
+      board = Sudoku::Board.new("973648521528719634641523879864397215392851746157264983485932167236175498719486352")
+      expected = [
+         [9, 5, 6],
+         [7, 2, 4],
+         [3, 8, 1],
+      ]
+
+      board.box_each(0, 0) do |x, y, value|
+         assert_equal(expected[x][y], value)
+      end
+   end
+
    def test_get_num_changes
       board = Sudoku::Board.new('.................................................................................')
 
