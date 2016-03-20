@@ -2,6 +2,7 @@ require 'docopt'
 require_relative 'solver'
 require_relative 'singles_strategy'
 require_relative 'hidden_singles_strategy'
+require_relative 'locked_candidates_strategy'
 
 module Sudoku
    class Main
@@ -30,7 +31,8 @@ DOC
          begin
             solver = Sudoku::Solver.new(options["<puzzle>"], [
                Sudoku::SinglesStrategy.new,
-               Sudoku::HiddenSinglesStrategy.new
+               Sudoku::HiddenSinglesStrategy.new,
+               Sudoku::LockedCandidatesStrategy.new,
             ])
          rescue Error => e
             puts 'Invalid puzzle.'
