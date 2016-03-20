@@ -104,37 +104,37 @@ STATE
       assert_invalid_get.call(9999, 9999)
    end
 
-   def test_remove_option
+   def test_remove_candidate
       board = Sudoku::Board.new("..2.3...8.....8....31.2.....6..5.27..1.....5.2.4.6..31....8.6.5.......13..531.4..")
 
       assert_equal(Set, board.get(0, 0).class)
       assert_equal(5, board.get(0, 0).length)
-      board.remove_option(0, 0, 5)
+      board.remove_candidate(0, 0, 5)
 
-      options = board.get(0, 0)
+      candidates = board.get(0, 0)
       assert_equal(4, board.get(0, 0).length)
-      assert_false(options.include?(5))
+      assert_false(candidates.include?(5))
 
-      assert_invalid_remove_option = proc do |x, y, option|
+      assert_invalid_remove_candidate = proc do |x, y, candidate|
          assert_raise Sudoku::Error do
-            board.remove_option(x, y, option)
+            board.remove_candidate(x, y, candidate)
          end
       end
 
-      # Already not a viable option.
-      assert_invalid_remove_option.call(0, 0, 5)
+      # Already not a viable candidate.
+      assert_invalid_remove_candidate.call(0, 0, 5)
 
       # Already solved.
-      assert_invalid_remove_option.call(2, 0, 3)
+      assert_invalid_remove_candidate.call(2, 0, 3)
 
       # Invalid argument.
-      assert_invalid_remove_option.call(0, 0, 10)
+      assert_invalid_remove_candidate.call(0, 0, 10)
 
       # Invalid argument.
-      assert_invalid_remove_option.call(0, 0, 0)
+      assert_invalid_remove_candidate.call(0, 0, 0)
 
       # Invalid argument.
-      assert_invalid_remove_option.call(0, 0, "I'm a string!")
+      assert_invalid_remove_candidate.call(0, 0, "I'm a string!")
    end
 
    def test_solve

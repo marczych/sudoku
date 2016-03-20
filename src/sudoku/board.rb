@@ -63,7 +63,7 @@ module Sudoku
          return @changes
       end
 
-      def remove_option(x, y, value)
+      def remove_candidate(x, y, value)
          current = @board[get_offset(x, y)]
 
          if !value.is_a?(Integer) or value <= 0 or value > 9
@@ -75,7 +75,7 @@ module Sudoku
                current.delete(value)
                @changes += 1
             else
-               raise Error.new('Already not an option.')
+               raise Error.new('Already not a candidate.')
             end
          else
             raise Error.new('Cell is already solved.')
@@ -92,13 +92,13 @@ module Sudoku
          end
 
          if !@board[get_offset(x, y)].include?(value)
-            raise Error.new('Not a viable option.')
+            raise Error.new('Not a viable candidate.')
          end
 
          @board[get_offset(x,  y)] = value
          @changes += 1
 
-         remove_option_from_set = proc do |remove_x, remove_y|
+         remove_candidate_from_set = proc do |remove_x, remove_y|
             cell = @board[get_offset(remove_x, remove_y)]
             if cell.is_a?(Set)
                cell.delete(value)
@@ -106,8 +106,8 @@ module Sudoku
          end
 
          (0..8).each do |i|
-            remove_option_from_set.call(x, i)
-            remove_option_from_set.call(i, y)
+            remove_candidate_from_set.call(x, i)
+            remove_candidate_from_set.call(i, y)
          end
 
          start_x = (x / 3).floor * 3
@@ -115,7 +115,7 @@ module Sudoku
 
          (start_x..(start_x + 2)).each do |remove_x|
             (start_y..(start_y + 2)).each do |remove_y|
-               remove_option_from_set.call(remove_x, remove_y)
+               remove_candidate_from_set.call(remove_x, remove_y)
             end
          end
       end
