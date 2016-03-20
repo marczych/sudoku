@@ -122,7 +122,9 @@ STATE
       end
 
       # Already not a viable candidate.
-      assert_invalid_remove_candidate.call(0, 0, 5)
+      current_changes = board.get_num_changes()
+      board.remove_candidate(0, 0, 5)
+      assert_equal(current_changes, board.get_num_changes())
 
       # Already solved.
       assert_invalid_remove_candidate.call(2, 0, 3)

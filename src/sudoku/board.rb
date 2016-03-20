@@ -71,11 +71,8 @@ module Sudoku
          end
 
          if current.is_a?(Set)
-            if current.include?(value)
-               current.delete(value)
+            if current.delete?(value)
                @changes += 1
-            else
-               raise Error.new('Already not a candidate.')
             end
          else
             raise Error.new('Cell is already solved.')
