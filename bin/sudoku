@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../src/sudoku/main.rb'
+
+exit Sudoku::Main.main()
