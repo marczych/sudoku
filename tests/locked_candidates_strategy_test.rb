@@ -43,4 +43,44 @@ class LoggedCandidatesPointingStrategyTest < StrategyTestBase
       assert_equal(Set.new([7, 8, 9]), board.get(2, 4))
       assert_equal(Set.new([1, 7, 8, 9]), board.get(2, 5))
    end
+
+   def test_claiming_row
+      board = Sudoku::Board.new('2345678..........................................................................')
+
+      assert(board.get(6, 1).include?(1))
+
+      get_strategy().step(board)
+
+      assert_equal(8, board.get(6, 0))
+      assert_equal(Set.new(2..7), board.get(6, 1))
+      assert_equal(Set.new(2..7), board.get(6, 2))
+
+      assert_equal(Set.new([1, 9]), board.get(7, 0))
+      assert_equal(Set.new(2..7), board.get(7, 1))
+      assert_equal(Set.new(2..7), board.get(7, 2))
+
+      assert_equal(Set.new([1, 9]), board.get(8, 0))
+      assert_equal(Set.new(2..7), board.get(8, 1))
+      assert_equal(Set.new(2..7), board.get(8, 2))
+   end
+
+   def test_claiming_col
+      board = Sudoku::Board.new('2........3........4........5........6........7........8..........................')
+
+      assert(board.get(1, 6).include?(1))
+
+      get_strategy().step(board)
+
+      assert_equal(8, board.get(0, 6))
+      assert_equal(Set.new([1, 9]), board.get(0, 7))
+      assert_equal(Set.new([1, 9]), board.get(0, 8))
+
+      assert_equal(Set.new(2..7), board.get(1, 6))
+      assert_equal(Set.new(2..7), board.get(1, 7))
+      assert_equal(Set.new(2..7), board.get(1, 8))
+
+      assert_equal(Set.new(2..7), board.get(2, 6))
+      assert_equal(Set.new(2..7), board.get(2, 7))
+      assert_equal(Set.new(2..7), board.get(2, 8))
+   end
 end
