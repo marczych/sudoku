@@ -74,8 +74,6 @@ module Sudoku
             if current.delete?(value)
                @changes += 1
             end
-         else
-            raise Error.new('Cell is already solved.')
          end
       end
 

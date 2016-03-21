@@ -127,7 +127,8 @@ STATE
       assert_equal(current_changes, board.get_num_changes())
 
       # Already solved.
-      assert_invalid_remove_candidate.call(2, 0, 3)
+      board.remove_candidate(2, 0, 3)
+      assert_equal(current_changes, board.get_num_changes())
 
       # Invalid argument.
       assert_invalid_remove_candidate.call(0, 0, 10)
