@@ -46,7 +46,28 @@ module Sudoku
       end
 
       def self.prettify_state(state)
-         return state.scan(/.{9}/).join("\n") + "\n"
+         horizontal_border = '-------------'
+         horizontal_separator = '----|---|----'
+
+         pretty_lines = state.scan(/.{9}/).map do |line|
+            '|' + line.scan(/.{3}/).join('|') + '|'
+         end
+
+         [
+            horizontal_border,
+            pretty_lines[0],
+            pretty_lines[1],
+            pretty_lines[2],
+            horizontal_separator,
+            pretty_lines[3],
+            pretty_lines[4],
+            pretty_lines[5],
+            horizontal_separator,
+            pretty_lines[6],
+            pretty_lines[7],
+            pretty_lines[8],
+            horizontal_border,
+         ].join("\n") + "\n"
       end
 
       def solved?
