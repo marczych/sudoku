@@ -1,8 +1,9 @@
 require 'docopt'
-require_relative 'solver'
-require_relative 'singles_strategy'
+require_relative 'brute_force_strategy'
 require_relative 'hidden_singles_strategy'
 require_relative 'locked_candidates_strategy'
+require_relative 'singles_strategy'
+require_relative 'solver'
 
 module Sudoku
    class Main
@@ -33,31 +34,30 @@ DOC
                Sudoku::SinglesStrategy.new,
                Sudoku::HiddenSinglesStrategy.new,
                Sudoku::LockedCandidatesStrategy.new,
+               Sudoku::BruteForceStrategy.new,
             ])
          rescue Error => e
             puts 'Invalid puzzle.'
             return 1
          end
 
+         solved = false
+
          begin
-            solved = false
+            solved = solver.solve
 
-            begin
-               solved = solver.solve
-
-               if !solved
-                  puts "Not solved. Partial solution:\n\n"
-               end
-            rescue Error => e
-               puts 'Error when solving puzzle:'
-               puts e
-               puts "Partial solution:\n\n"
+            if !solved
+               puts "Not solved. Partial solution:\n\n"
             end
-
-            puts solver.get_pretty_state
-
-            return solved ? 0 : 1
+         rescue Error => e
+            puts 'Error when solving puzzle:'
+            puts e
+            puts "Partial solution:\n\n"
          end
+
+         puts solver.get_pretty_state
+
+         return solved ? 0 : 1
       end
    end
 end

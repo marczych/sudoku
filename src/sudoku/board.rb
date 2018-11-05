@@ -27,6 +27,10 @@ module Sudoku
          end
       end
 
+      def clone
+         self.class.new(get_state())
+      end
+
       def get_state
          state = ''
 

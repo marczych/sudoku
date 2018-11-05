@@ -1,8 +1,9 @@
 require 'test/unit'
-require_relative '../src/sudoku/solver.rb'
-require_relative '../src/sudoku/singles_strategy.rb'
+require_relative '../src/sudoku/brute_force_strategy.rb'
 require_relative '../src/sudoku/hidden_singles_strategy.rb'
 require_relative '../src/sudoku/locked_candidates_strategy.rb'
+require_relative '../src/sudoku/singles_strategy.rb'
+require_relative '../src/sudoku/solver.rb'
 
 class SolverTest < Test::Unit::TestCase
    def test_hidden_singles_puzzle
@@ -29,6 +30,14 @@ class SolverTest < Test::Unit::TestCase
       assert_puzzle('locked_candidates_claiming')
    end
 
+   def test_evil_3178386406
+      assert_puzzle('evil_3178386406')
+   end
+
+   def test_evil_2781719429
+      assert_puzzle('evil_2781719429')
+   end
+
    def assert_puzzle(puzzle_name)
       puzzle_file = "tests/puzzles/#{puzzle_name}.puz"
       solution_file = "tests/puzzles/#{puzzle_name}.sol"
@@ -36,6 +45,7 @@ class SolverTest < Test::Unit::TestCase
          Sudoku::SinglesStrategy.new,
          Sudoku::HiddenSinglesStrategy.new,
          Sudoku::LockedCandidatesStrategy.new,
+         Sudoku::BruteForceStrategy.new,
       ])
 
       assert(solver.solve())
