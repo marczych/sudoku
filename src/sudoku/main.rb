@@ -11,11 +11,12 @@ module Sudoku
 Sudoku solver.
 
 Usage:
-   #{__FILE__} <puzzle>
+   #{__FILE__} <puzzle> [--verbose|-v]
    #{__FILE__} -h | --help
 
 Options:
-   -h --help  Show this screen.
+   -h --help     Show this screen.
+   -v --verbose  Print verbose debug info.
 DOC
 
       def self.main
@@ -30,12 +31,16 @@ DOC
          solver = nil
 
          begin
-            solver = Sudoku::Solver.new(options["<puzzle>"], [
-               Sudoku::SinglesStrategy.new,
-               Sudoku::HiddenSinglesStrategy.new,
-               Sudoku::LockedCandidatesStrategy.new,
-               Sudoku::BruteForceStrategy.new,
-            ])
+            solver = Sudoku::Solver.new(
+               options["<puzzle>"],
+               [
+                  Sudoku::SinglesStrategy.new,
+                  Sudoku::HiddenSinglesStrategy.new,
+                  Sudoku::LockedCandidatesStrategy.new,
+                  Sudoku::BruteForceStrategy.new,
+               ],
+               options['--verbose']
+            )
          rescue Error => e
             puts 'Invalid puzzle.'
             return 1

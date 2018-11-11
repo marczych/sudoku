@@ -2,9 +2,10 @@ require_relative 'board.rb'
 
 module Sudoku
    class Solver
-      def initialize(state, strategies)
+      def initialize(state, strategies, verbose)
          @board = Board.new(state)
          @strategies = strategies
+         @verbose = verbose
       end
 
       def solve
@@ -15,6 +16,11 @@ module Sudoku
                strategy.step(@board)
 
                if @board.get_num_changes > current_changes
+                  if @verbose
+                     change_count = @board.get_num_changes - current_changes
+                     STDERR.puts "#{strategy.class.name}: #{change_count}"
+                  end
+
                   break
                end
             end
