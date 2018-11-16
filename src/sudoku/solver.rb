@@ -2,7 +2,7 @@ require_relative 'board.rb'
 
 module Sudoku
    class Solver
-      def initialize(state, strategies, verbose)
+      def initialize(state, strategies, verbose = false)
          @board = Board.new(state)
          @strategies = strategies
          @verbose = verbose
