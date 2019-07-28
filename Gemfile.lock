@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    docopt (0.5.0)
+    docopt (0.6.1)
     power_assert (1.1.4)
     rake (12.3.3)
     test-unit (3.3.3)
@@ -11,7 +11,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  docopt (~> 0.5.0)
+  docopt (~> 0.6.1)
   rake (~> 12.3)
   test-unit (~> 3.3)
 
