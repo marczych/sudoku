@@ -3,7 +3,7 @@ GEM
   specs:
     docopt (0.6.1)
     power_assert (2.0.3)
-    rake (13.1.0)
+    rake (13.2.1)
     test-unit (3.6.2)
       power_assert
 
@@ -12,7 +12,7 @@ PLATFORMS
 
 DEPENDENCIES
   docopt (~> 0.6.1)
-  rake (~> 13.1)
+  rake (~> 13.2)
   test-unit (~> 3.6)
 
 BUNDLED WITH
