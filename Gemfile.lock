@@ -3,7 +3,7 @@ GEM
   specs:
     docopt (0.6.1)
     power_assert (2.0.5)
-    rake (13.3.0)
+    rake (13.3.1)
     test-unit (3.7.0)
       power_assert
 
