@@ -2,9 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     docopt (0.6.1)
-    power_assert (2.0.5)
+    power_assert (3.0.1)
     rake (13.3.1)
-    test-unit (3.7.0)
+    test-unit (3.7.3)
       power_assert
 
 PLATFORMS
