@@ -4,7 +4,7 @@ GEM
     docopt (0.6.1)
     power_assert (3.0.1)
     rake (13.3.1)
-    test-unit (3.7.3)
+    test-unit (3.7.6)
       power_assert
 
 PLATFORMS
